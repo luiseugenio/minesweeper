@@ -8,9 +8,9 @@ RSpec.describe Board, type: :model do
 	describe 'initialize' do
 
     context 'with valid arguments' do
-      it 'assigns all 3 arguments width, height, num_mines' do
-        expect(board.width).to eql(6)
-        expect(board.height).to eql(6)
+      it 'assigns all 3 arguments x, y, num_mines' do
+        expect(board.x).to eql(6)
+        expect(board.y).to eql(6)
         expect(board.num_mines).to eql(num_mines)
       end
 
