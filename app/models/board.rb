@@ -1,68 +1,60 @@
 class Board
 
-	attr_accessor :x, :y, :num_mines, :elements
+	attr_accessor :x, :y, :qtd_mines, :elements, :mines
 
-	def initialize(x, y, num_mines)
-		@x = x
-	  @y = y
-	  @num_mines = num_mines
+  def initialize(x, y, qtd_mines)
+    @x = x
+    @y = y
+    @qtd_mines = qtd_mines
+    
+    build
+  end
 
-	  setup_new_board
-	end
-
-	def move(x, y)
-    return 'mine'     if @elements[x][y].mine?
-    return 'revealed' if @elements[x][y].revealed?
+  def click(x, y)
+    return 'mine' if @elements[x][y].mine
+    return 'flagged' if @elements[x][y].flagged
+    return 'revealed' if @elements[x][y].revealed
     @elements[x][y].click
-	end
+  end
 
-	def flag(x, y)
-		if @elements[x][y].flagged? 
-			@elements[x][y].unflag
-			return 'unflagged'
-		else
-			@elements[x][y].flag
-			return 'flagged'
-		end
-	end
+  def flag(x, y, type)
+    @elements[x][y].flag(type)
+  end
 
-	def status
-		board = ''
-    @y.times do |y|
-      @x.times do |x|
-        if @elements[y][x].mine?
-          board << 'B'
-        elsif !@elements[y][x].revealed?
-          board << '*'
-        elsif @elements[y][x].flagged?
-          board << 'F'
+  def status
+    state = ''
+    @x.times do |x|
+      @y.times do |y|
+        if @elements[x][y].mine
+          state << 'B'
+        elsif @elements[x][y].flagged?
+          state << @elements[x][y].flagged.type
+        elsif !@elements[x][y].revealed
+          state << '?'
         else
-          board << 'R'
+          state << 'R'
         end
       end
-      board << "\n"
+      state << "\n"
     end
-		board
-	end
+    state
+  end
 
-	private
-	def setup_new_board
-		@mines = []
-		@elements = Array.new(y) { |y| Array.new(x) { |x| Element.new(x, y) } }
+  private
 
-		build
-	end
-
-	def build
-		while @mines.count < @num_mines do
+  def build
+  	@mines = []
+    @elements = Array.new(@x) { |x| Array.new(@y) { |y| Element.new(x, y) } }
+    
+    while @mines.count < @qtd_mines do
       x = rand(@x)
       y = rand(@y)
 
-      if !@mines.include?(@elements[y][x])
-        @elements[y][x].mine = true
-        @mines << @elements[y][x]
+      if !@mines.include?(@elements[x][y])
+        @elements[x][y].mine = true
+        @mines << @elements[x][y]
       end
-		end
-	end
+    end
+  end
 
 end
