@@ -2,37 +2,25 @@ class Element
 
 	attr_accessor :x, :y, :mine, :revealed, :flagged
 
-	def initialize(x, y, mine = false)
-	  @x        = x
+  def initialize(x, y, mine = false)
+    @x        = x
     @y        = y
     @mine     = mine
-
+    
     @revealed = false
-		@flagged = false
-	end
+    @flagged  = nil
+  end
 
- 	def click
+  def click
     @revealed = true
 	end
 
-	def revealed?
-    @revealed
-  end
+	def flagged?
+		@flagged.present?	
+	end
 
-  def mine?
-    @mine
-  end
-
-  def flagged?
-    @flagged
-  end
-
-  def flag
-    @flagged = true
-  end
-
-  def unflag
-    @flagged = false
-end
+	def flag(type)
+		@flagged = Flag.new(type) 
+	end
 
 end

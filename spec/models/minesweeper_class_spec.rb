@@ -12,6 +12,14 @@ RSpec.describe MinesweeperClass, type: :model do
       end
     end
 
+    context 'with invalid arguments' do
+      it 'raises an error' do
+        expect {
+          MinesweeperClass.new
+        }.to raise_error(ArgumentError, 'wrong number of arguments (given 0, expected 3)')
+      end
+    end
+
     context 'without arguments' do
       it 'raises an error' do
         expect {
