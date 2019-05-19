@@ -26,6 +26,10 @@ class MinesweeperClass
     print @board.status
   end
 
+  def status
+  	print @board.status
+  end
+
   private
 
   def game_over

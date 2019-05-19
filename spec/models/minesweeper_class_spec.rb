@@ -13,10 +13,14 @@ RSpec.describe MinesweeperClass, type: :model do
     end
 
     context 'with invalid arguments' do
+      before do
+        minesweeper_invalid = MinesweeperClass.new(6, 6, 100)
+      end
+
       it 'raises an error' do
         expect {
           MinesweeperClass.new
-        }.to raise_error(ArgumentError, 'wrong number of arguments (given 0, expected 3)')
+        }.to raise_error(ArgumentError, 'too many mines')
       end
     end
 
